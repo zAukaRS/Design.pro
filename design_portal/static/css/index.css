@@ -1,0 +1,85 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.header {
+    background-color: #785dcb;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+.navbar {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.navbar .btn {
+    background-color: #ffffff;
+    color: #785dcb;
+    border: 2px solid #ffffff;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.navbar .btn:hover {
+    background-color: #785dcb;
+    color: #ffffff;
+}
+
+.content {
+    flex: 1;
+    padding: 20px;
+    text-align: center;
+}
+
+.btn-primary {
+    background-color: #6c63ff;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    border: 2px solid #6c63ff;
+}
+
+.btn-secondary {
+    background-color: #f4a261;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    border: 2px solid #f4a261;
+}
+
+.btn-primary:hover {
+    background-color: #4e4cb3;
+    border-color: #4e4cb3;
+}
+
+.btn-secondary:hover {
+    background-color: #e76f51;
+    border-color: #e76f51;
+}
+
+.footer {
+    background-color: #785dcb;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    margin-top: auto;
+}

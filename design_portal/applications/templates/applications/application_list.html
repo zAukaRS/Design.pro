@@ -1,0 +1,38 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список заявок</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/application_list.css' %}">
+</head>
+<body>
+
+    <header>
+        <h1>Список заявок</h1>
+    </header>
+
+    <div class="application-list">
+        {% if applications %}
+            <ul>
+                {% for application in applications %}
+                    <li class="application-item">
+                        <h2>{{ application.title }}</h2>
+                        <a href="{% url 'application-detail' application.id %}" class="btn">Подробнее</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="empty-message">Заявки не найдены.</p>
+        {% endif %}
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Design.pro. Все права защищены.</p>
+    </footer>
+
+</body>
+</html>
