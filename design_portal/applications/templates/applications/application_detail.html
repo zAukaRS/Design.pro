@@ -1,0 +1,33 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Детали заявки</title>
+    <link rel="stylesheet" href="{% static 'css/application_detail.css' %}">
+</head>
+<body>
+    <div class="application-detail">
+        <h1>{{ application.title }}</h1>
+        <p class="description">Описание: {{ application.description }}</p>
+        <p class="status">Статус: {{ application.get_status_display }}</p>
+
+        <h2>История изменений:</h2>
+        <ul class="history-list">
+            {% for history_item in history %}
+                <li class="history-item">
+                    <strong>{{ history_item.status }}</strong>
+                    ({{ history_item.updated_at }})
+                    - {{ history_item.updated_by.username }}
+                </li>
+            {% empty %}
+                <li class="no-history">Нет изменений.</li>
+            {% endfor %}
+        </ul>
+
+        <a class="edit-link" href="{% url 'application-update' application.id %}">Редактировать</a>
+    </div>
+</body>
+</html>
