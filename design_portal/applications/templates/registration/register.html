@@ -1,6 +1,5 @@
 {% load static %}
 
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -8,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Регистрация</title>
     <link rel="stylesheet" href="{% static 'css/register.css' %}">
+    <script src="{% static 'js/register.js' %}" defer></script>
 </head>
 <body>
 
@@ -16,16 +16,33 @@
         <form method="post">
             {% csrf_token %}
             <div class="form-group">
-                {{ form.username.label }}
-                {{ form.username }}
+                <label for="id_nickname">{{ form.nickname.label }}</label>
+                {{ form.nickname }}
+                {% if form.nickname.errors %}
+                    <div class="error">{{ form.nickname.errors }}</div>
+                {% endif %}
             </div>
             <div class="form-group">
-                {{ form.password1.label }}
+                <label for="id_email">{{ form.email.label }}</label>
+                {{ form.email }}
+                <span id="email-error" class="error-message"></span>
+                {% if form.email.errors %}
+                    <div class="error">{{ form.email.errors }}</div>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <label for="id_password1">{{ form.password1.label }}</label>
                 {{ form.password1 }}
+                {% if form.password1.errors %}
+                    <div class="error">{{ form.password1.errors }}</div>
+                {% endif %}
             </div>
             <div class="form-group">
-                {{ form.password2.label }}
+                <label for="id_password2">{{ form.password2.label }}</label>
                 {{ form.password2 }}
+                {% if form.password2.errors %}
+                    <div class="error">{{ form.password2.errors }}</div>
+                {% endif %}
             </div>
             <button type="submit" class="btn-submit">Зарегистрироваться</button>
         </form>

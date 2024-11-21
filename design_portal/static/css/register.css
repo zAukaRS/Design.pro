@@ -27,6 +27,7 @@ h1 {
 
 .form-group {
     margin-bottom: 20px;
+    position: relative;
 }
 
 .form-group label {
@@ -79,4 +80,21 @@ h1 {
 
 .footer a:hover {
     text-decoration: underline;
+}
+
+.error {
+    color: #d9534f;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+#error-email {
+    position: absolute;
+    top: calc(100% + 5px);
+    left: 0;
+    color: #d9534f;
+    font-size: 13px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

@@ -27,7 +27,6 @@
 
     <main class="content">
         {% if user.is_authenticated %}
-            <h2>Привет, {{ user.username }}!</h2>
             <p>Вы можете создавать, просматривать и управлять своими запросами на дизайн интерьера.</p>
             <a href="{% url 'application-create' %}" class="btn btn-primary">Создать заявку</a>
             <a href="{% url 'application-list' %}" class="btn btn-secondary">Посмотреть заявки</a>

@@ -2,10 +2,17 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 
+from .managers import CustomUserManager
+
 
 class CustomUser(User):
     full_name = models.CharField(max_length=100)
     is_admin = models.BooleanField(default=False)
+    nickname = models.CharField(max_length=50, blank=True, null=True)
+    objects = CustomUserManager()
+
+    def __str__(self):
+        return self.email
 
 
 class Category(models.Model):
