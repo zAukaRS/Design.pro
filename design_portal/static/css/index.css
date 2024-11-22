@@ -13,13 +13,18 @@ body {
     color: white;
     padding: 20px;
     text-align: center;
+    position: relative;
+    overflow: hidden;
+    height: 150px;
 }
 
+/* Навигационная панель */
 .navbar {
     display: flex;
     justify-content: center;
     gap: 10px;
     margin-top: 10px;
+    z-index: 1;
 }
 
 .navbar .btn {
@@ -38,12 +43,16 @@ body {
     color: #ffffff;
 }
 
+/* Основной контент */
 .content {
     flex: 1;
-    padding: 20px;
+    padding: 40px 20px;
     text-align: center;
+    position: relative;
+    z-index: 1;
 }
 
+/* Основные кнопки */
 .btn-primary {
     background-color: #6c63ff;
     color: white;
@@ -76,10 +85,53 @@ body {
     border-color: #e76f51;
 }
 
+/* Футер */
 .footer {
     background-color: #785dcb;
     color: white;
     text-align: center;
     padding: 10px 0;
     margin-top: auto;
+    position: relative;
+    z-index: 1;
+}
+
+.bubbles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.bubble {
+    position: absolute;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.7);
+    animation: bubbleAnimation 4s ease-in-out infinite;
+}
+
+@keyframes bubbleAnimation {
+    0% {
+        transform: scale(0.5);
+        opacity: 1;
+    }
+    25% {
+        transform: translateX(30px) translateY(-30px) scale(1.2);
+        opacity: 1;
+    }
+    50% {
+        transform: translateX(-30px) translateY(50px) scale(0.8);
+        opacity: 1;
+    }
+    75% {
+        transform: translateX(100px) translateY(-40px) scale(1.1);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(-60px) translateY(60px) scale(1);
+        opacity: 1;
+    }
 }

@@ -1,10 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+{% block content %}
+    <h2>Просмотр своих заявок</h2>
+    <form method="get" action="{% url 'user-application-list' %}">
+        <label for="status">Фильтр по статусу:</label>
+        <select name="status" id="status">
+            <option value="">Все заявки</option>
+            <option value="new" {% if status_filter == 'new' %}selected{% endif %}>Новая</option>
+            <option value="in_progress" {% if status_filter == 'in_progress' %}selected{% endif %}>Принято в работу</option>
+            <option value="completed" {% if status_filter == 'completed' %}selected{% endif %}>Выполнено</option>
+        </select>
+        <button type="submit">Применить фильтр</button>
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <th>Временная метка</th>
+                <th>Название</th>
+                <th>Описание</th>
+                <th>Категория</th>
+                <th>Статус</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for application in applications %}
+                <tr>
+                    <td>{{ application.created_at|date:"d M Y H:i" }}</td>
+                    <td>{{ application.title }}</td>
+                    <td>{{ application.description }}</td>
+                    <td>{{ application.category.name }}</td>
+                    <td>{{ application.get_status_display }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="5">Нет заявок для отображения.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -13,15 +13,19 @@
         <h1>{{ application.title }}</h1>
         <p class="description">Описание: {{ application.description }}</p>
         <p class="status">Статус: {{ application.get_status_display }}</p>
-
         <h2>История изменений:</h2>
         <ul class="history-list">
             {% for history_item in history %}
-                <li class="history-item">
-                    <strong>{{ history_item.status }}</strong>
-                    ({{ history_item.updated_at }})
-                    - {{ history_item.updated_by.username }}
-                </li>
+                {% if not forloop.first %}
+                    <li class="history-item">
+                        <strong>{{ history_item.timestamp|date:"d.m.Y H:i" }}</strong>
+                        {% if history_item.user %}
+                            {{ history_item.user.username }}
+                        {% endif %}
+                        - {{ history_item.action }}
+                        <a href="{% url 'application_history_detail' history_item.id %}" class="btn-details">Подробнее</a>
+                    </li>
+                {% endif %}
             {% empty %}
                 <li class="no-history">Нет изменений.</li>
             {% endfor %}

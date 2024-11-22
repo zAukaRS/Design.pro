@@ -1,78 +1,130 @@
 body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    color: #333;
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(135deg, #a8c0ff, #3f89c7); /* Светлый градиент */
     display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    transition: background 0.3s ease;
 }
 
-.header {
-    background-color: #785dcb;
-    color: white;
-    padding: 20px;
-    text-align: center;
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
 }
 
-h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
-}
-
-.content {
-    padding: 20px;
-    max-width: 400px;
-    margin: 0 auto;
-    background-color: white;
+.login-box {
+    background-color: #ffffff;
+    padding: 40px;
     border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(-30px);
+    animation: slideIn 0.6s ease-out forwards;
 }
 
+@keyframes slideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Заголовок */
+h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #4a90e2; /* Светло-синий */
+    transition: color 0.3s ease;
+}
+
+h1:hover {
+    color: #0066cc; /* Более темный синий при наведении */
+}
+
+/* Поля ввода */
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+    text-align: left;
 }
 
-label {
+.form-group label {
+    font-size: 1rem;
+    color: #333;
     display: block;
     margin-bottom: 5px;
-    font-weight: bold;
 }
 
-input[type="text"], input[type="password"] {
+.form-group input {
     width: 100%;
     padding: 10px;
+    border-radius: 5px;
     border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
+    font-size: 1rem;
+    margin-bottom: 10px;
+    outline: none;
+    transition: border 0.3s ease, box-shadow 0.3s ease;
 }
 
-input[type="submit"] {
-    background-color: #785dcb;
-    color: white;
-    border: none;
-    padding: 10px;
-    width: 100%;
-    border-radius: 5px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+.form-group input:focus {
+    border-color: #4a90e2;
+    box-shadow: 0 0 8px rgba(74, 144, 226, 0.5); /* Подсветка при фокусе */
 }
 
-input[type="submit"]:hover {
-    background-color: #6a4fb2;
-}
-
-.footer {
-    background-color: #785dcb;
-    color: white;
-    text-align: center;
-    padding: 10px 0;
-    margin-top: auto;
-}
-
+/* Ошибки */
 .error {
-    color: #d9534f;
-    font-size: 14px;
+    color: #e53935;
+    font-size: 0.9rem;
     margin-top: 5px;
+}
+
+/* Кнопка отправки */
+.btn-submit {
+    width: 100%;
+    padding: 12px;
+    background-color: #4a90e2;
+    color: white;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-submit:hover {
+    background-color: #0066cc;
+    transform: scale(1.05); /* Легкое увеличение при наведении */
+}
+
+/* Футер с ссылкой на регистрацию */
+.footer {
+    margin-top: 20px;
+}
+
+.footer p {
+    font-size: 1rem;
+    color: #555;
+}
+
+.footer a {
+    color: #4a90e2;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.footer a:hover {
+    color: #0066cc;
+    text-decoration: underline;
 }

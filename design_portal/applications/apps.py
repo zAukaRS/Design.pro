@@ -8,4 +8,3 @@ class ApplicationsConfig(AppConfig):
     verbose_name = 'Управление заявками'
 
 
-

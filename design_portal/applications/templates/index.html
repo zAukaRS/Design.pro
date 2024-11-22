@@ -11,6 +11,7 @@
 <body>
     <header class="header">
         <h1 class="welcome-message">Добро пожаловать в Design.pro</h1>
+        <div class="bubbles"></div>
         <nav class="navbar">
             {% if user.is_authenticated %}
                 <a href="{% url 'dashboard' %}" class="btn">Личный кабинет</a>
@@ -39,5 +40,6 @@
     <footer class="footer">
         <p>&copy; 2024 Design.pro. Все права защищены.</p>
     </footer>
+<script src="{% static 'js/index.js' %}" defer></script>
 </body>
 </html>

@@ -1,6 +1,5 @@
 {% load static %}
 
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -10,19 +9,42 @@
     <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
 </head>
 <body>
-    <div class="profile-container">
-        <header class="profile-header">
-            <h1>Добро пожаловать</h1>
-            <p class="user-info">Email: {{ user.email }}</p>
-            <p class="user-info">Дата регистрации: {{ user.date_joined|date:"d M Y" }}</p>
+    <div class="dashboard-container">
+        <header class="dashboard-header">
+            <h1>Добро пожаловать в панель управления!</h1>
+            <p class="user-info">Email: <strong>{{ user.email }}</strong></p>
+            <p class="user-info">Дата регистрации: <strong>{{ user.date_joined|date:"d M Y" }}</strong></p>
         </header>
 
-        <section class="profile-actions">
-            <form method="post" action="{% url 'logout' %}">
-                {% csrf_token %}
-                 <button type="submit" class="btn btn-danger">Выйти</button>
-            </form>
-</section>
+        <section class="dashboard-actions">
+            <div class="action-cards">
+                {% if user.is_staff %}
+                    <div class="card">
+                        <div class="card-icon">
+                            <i class="fas fa-plus-circle"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Добавить категорию</h3>
+                            <p>Создайте новые категории для заявок.</p>
+                            <a href="{% url 'category-create' %}" class="btn btn-primary">Добавить</a>
+                        </div>
+                    </div>
+                {% endif %}
+                <div class="card">
+                    <div class="card-icon">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Выход</h3>
+                        <p>Выход из аккаунта.</p>
+                        <form method="post" action="{% url 'logout' %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">Выйти</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 </body>
 </html>

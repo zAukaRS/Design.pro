@@ -1,0 +1,63 @@
+.application-detail {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+}
+
+.application-detail h1 {
+    font-size: 2em;
+    color: #4CAF50;
+    margin-bottom: 20px;
+}
+
+.application-detail .description,
+.application-detail .status {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.application-detail h2 {
+    font-size: 1.5em;
+    margin-top: 30px;
+    color: #333;
+}
+
+.history-list {
+    list-style-type: none;
+    padding-left: 0;
+    font-size: 1.1em;
+    margin-top: 10px;
+}
+
+.history-item {
+    background-color: #e9f7e9;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-left: 5px solid #4CAF50;
+}
+
+.history-item strong {
+    color: #4CAF50;
+}
+
+.no-history {
+    font-style: italic;
+    color: #888;
+}
+
+.edit-link {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.1em;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+.edit-link:hover {
+    background-color: #45a049;
+}

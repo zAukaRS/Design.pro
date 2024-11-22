@@ -1,91 +1,247 @@
 body {
-    font-family: 'Roboto', sans-serif;
-    background-color: #f4f7fc;
-    color: #3c3c3c;
     margin: 0;
     padding: 0;
+    font-family: 'Roboto', sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
-header {
-    background-color: #6a4c9c;
-    color: white;
-    text-align: center;
-    padding: 20px 0;
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-header h1 {
-    font-size: 2.5rem;
-    margin: 0;
-}
-
+/* Закрепление футера */
 footer {
-    background-color: #6a4c9c;
+    background-color: #785dcb;
     color: white;
     text-align: center;
     padding: 10px 0;
-    position: absolute;
-    bottom: 0;
+    margin-top: auto; /* Закрепление футера внизу */
     width: 100%;
 }
 
-footer p {
+/* Хедер */
+header {
+    background-color: #785dcb;
+    color: white;
+    padding: 15px 0;
+    text-align: center;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.header-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+header h1 {
     margin: 0;
 }
 
-ul {
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 5px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.btn-info {
+    background-color: #17a2b8;
+    color: white;
+}
+
+.btn-info:hover {
+    background-color: #138496;
+}
+
+.btn-warning {
+    background-color: #ffc107;
+    color: black;
+}
+
+.btn-warning:hover {
+    background-color: #e0a800;
+}
+
+.btn-success {
+    background-color: #28a745;
+    color: white;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+/* Форма фильтра */
+.filter-form {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.filter-container {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.filter-form select {
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.filter-form button {
+    padding: 8px 16px;
+    font-size: 16px;
+    background-color: #6c63ff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.filter-form button:hover {
+    background-color: #4e4cb3;
+}
+
+/* Список заявок */
+.application-list-container {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.application-list {
     list-style-type: none;
     padding: 0;
+    margin: 0;
 }
 
-li {
-    background-color: #ffffff;
-    margin: 20px auto;
+.application-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 800px;
-    transition: transform 0.3s ease-in-out;
-}
-
-li:hover {
-    transform: translateY(-5px);
-}
-
-h2 {
-    color: #6a4c9c;
-    font-size: 1.8rem;
     margin-bottom: 10px;
-}
-
-p {
-    font-size: 1.2rem;
-    color: #3c3c3c;
-    margin-bottom: 10px;
-}
-
-a {
-    display: inline-block;
-    background-color: #9b67b1;
-    color: white;
-    padding: 10px 20px;
-    font-size: 1.1rem;
-    text-decoration: none;
+    border: 1px solid #ddd;
     border-radius: 5px;
-    transition: background-color 0.3s ease;
-    margin-right: 15px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-a:hover {
-    background-color: #6a4c9c;
+.application-info {
+    flex-grow: 1;
 }
 
-a:active {
-    background-color: #8c59a7;
+.application-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 5px;
 }
 
-li.empty {
+.application-status {
+    font-size: 16px;
+}
+
+.application-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.application-actions .btn-info {
+    position: relative;
+    margin-left: 10px;
+}
+
+.no-applications {
+    font-size: 16px;
+    color: #666;
     text-align: center;
-    color: #888888;
-    font-size: 1.2rem;
-    padding: 20px;
+}
+
+.pagination .current-page {
+    background-color: #4e4cb3;
+    color: white;
+    font-weight: bold;
+    pointer-events: none;
+    cursor: default;
+}
+.status-buttons .btn {
+    padding: 8px 16px;
+    font-size: 16px;
+    background-color: #6c63ff;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.status-buttons .btn:hover {
+    background-color: #4e4cb3;
+}
+
+.status-buttons .btn-active {
+    background-color: #4e4cb3;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.pagination .btn {
+    padding: 10px 15px;
+    background-color: #6c63ff;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.pagination .btn:hover {
+    background-color: #4e4cb3;
 }

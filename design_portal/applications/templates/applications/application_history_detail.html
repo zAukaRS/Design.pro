@@ -1,10 +1,23 @@
+{% load static %}
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Подробности изменения</title>
+    <link rel="stylesheet" href="{% static 'css/application_detail.css' %}">
 </head>
 <body>
-$END$
+    <div class="history-detail">
+        <h1>Подробности изменения заявки</h1>
+        <p><strong>Дата и время:</strong> {{ history_item.timestamp|date:"d.m.Y H:i" }}</p>
+        <p><strong>Кто изменил:</strong> {{ history_item.user.username }}</p>
+            <p><strong>Действие:</strong> {{ history_item.action }}</p>
+        <p><strong>Изменения:</strong></p>
+        <pre>{{ history_item.details }}</pre>
+
+        <a href="{% url 'application-detail' history_item.application.id %}" class="back-link">Назад</a>
+    </div>
 </body>
 </html>

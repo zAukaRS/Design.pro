@@ -11,28 +11,83 @@
 </head>
 <body>
 
-    <header>
-        <h1>Список заявок</h1>
-    </header>
+    <div class="content-wrapper">
+        <header>
+            <div class="header-container">
+                <h1>Ваши заявки</h1>
+                <div class="header-buttons">
+                    <a href="{% url 'index' %}" class="btn btn-primary">Главная страница</a>
+                    <a href="{% url 'application-create' %}" class="btn btn-primary">Создать заявку</a>
+                </div>
+            </div>
+        </header>
 
-    {% for application in applications %}
-    <li>
-        <h2>{{ application.title }}</h2>
-        <p>Статус: {{ application.get_status_display }}</p>
+        <main>
+            <form method="get" action="{% url 'application-list' %}" class="filter-form">
+                <div class="filter-container">
+                    <label for="status">Фильтровать по статусу:</label>
+                    <div class="status-buttons">
+                        <a href="?status=new" class="btn {% if status_filter == 'new' %}btn-active{% endif %}">Новая</a>
+                        <a href="?status=in_progress" class="btn {% if status_filter == 'in_progress' %}btn-active{% endif %}">Принято в работу</a>
+                        <a href="?status=completed" class="btn {% if status_filter == 'completed' %}btn-active{% endif %}">Выполнено</a>
+                        <a href="?status=" class="btn {% if status_filter == '' %}btn-active{% endif %}">Все заявки</a>
+                    </div>
+                </div>
+            </form>
+            <form method="get" action="{% url 'application-list' %}">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" name="search" value="{{ search_query }}" placeholder="Поиск по названию">
+                    <button class="btn btn-primary" type="submit">Поиск</button>
+                </div>
+            </form>
 
-        {% if application.status == 'new' %}
-            {% if user == application.user or user.is_staff %}
-                <a href="{% url 'update-status' application.id 'in_progress' %}">Принять в работу</a>
-            {% endif %}
-        {% elif application.status == 'in_progress' %}
-            {% if user == application.user or user.is_staff %}
-                <a href="{% url 'update-status' application.id 'completed' %}">Завершить заявку</a>
-            {% endif %}
-        {% endif %}
-    </li>
-    {% empty %}
-        <li>Заявки не найдены.</li>
-    {% endfor %}
+            <div class="application-list-container">
+                <ul class="application-list">
+                    {% for application in applications %}
+                        <li class="application-item">
+                            <div class="application-info">
+                                <h2 class="application-title">{{ application.title }}</h2>
+                                <p class="application-status">Статус: <strong>{{ application.get_status_display }}</strong></p>
+                            </div>
+
+                            <div class="application-actions">
+                                <a href="{% url 'application-detail' application.id %}" class="btn btn-info">Перейти к заявке</a>
+                                {% if application.status == 'new' %}
+                                    {% if user.is_staff %}
+                                        <a href="{% url 'update-status' application.id 'in_progress' %}" class="btn btn-warning">Принять в работу</a>
+                                    {% endif %}
+                                {% elif application.status == 'in_progress' %}
+                                    {% if user.is_staff %}
+                                        <a href="{% url 'update-status' application.id 'completed' %}" class="btn btn-success">Завершить заявку</a>
+                                    {% endif %}
+                                {% endif %}
+
+                                {% if user.is_staff or user == application.user %}
+                                    <a href="{% url 'application-update' application.id %}" class="btn btn-secondary">Редактировать</a>
+                                    <a href="{% url 'application-delete' application.id %}" class="btn btn-danger">Удалить</a>
+                                {% endif %}
+                            </div>
+                        </li>
+                    {% empty %}
+                        <li class="no-applications">Заявки не найдены.</li>
+                    {% endfor %}
+                </ul>
+
+                <div class="pagination">
+                    {% if applications.has_previous %}
+                        <a href="?page=1{% if status_filter %}&status={{ status_filter }}{% endif %}" class="btn">Первая</a>
+                        <a href="?page={{ applications.previous_page_number }}{% if status_filter %}&status={{ status_filter }}{% endif %}" class="btn">Предыдущая</a>
+                    {% endif %}
+                    <span>Страница {{ applications.number }} из {{ applications.paginator.num_pages }}</span>
+
+                    {% if applications.has_next %}
+                        <a href="?page={{ applications.next_page_number }}{% if status_filter %}&status={{ status_filter }}{% endif %}" class="btn">Следующая</a>
+                        <a href="?page={{ applications.paginator.num_pages }}{% if status_filter %}&status={{ status_filter }}{% endif %}" class="btn">Последняя</a>
+                    {% endif %}
+                </div>
+            </div>
+        </main>
+    </div>
 
     <footer>
         <p>&copy; 2024 Design.pro. Все права защищены.</p>

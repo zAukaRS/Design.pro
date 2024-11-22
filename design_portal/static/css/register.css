@@ -1,30 +1,55 @@
+/* Основные стили для страницы регистрации */
 body {
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
-    background-color: #f4f7fc;
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(135deg, #a8c0ff, #3f89c7); /* Легкий градиент для фона */
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    transition: background 0.3s ease;
 }
 
+/* Контейнер формы */
 .container {
     background-color: #ffffff;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
     padding: 40px;
     width: 100%;
     max-width: 400px;
+    opacity: 0;
+    transform: translateY(-30px);
+    animation: slideIn 0.6s ease-out forwards;
 }
 
+/* Анимация появления формы */
+@keyframes slideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Заголовок */
 h1 {
     text-align: center;
     color: #3e4e5e;
     font-size: 24px;
     margin-bottom: 20px;
+    transition: color 0.3s ease;
 }
 
+h1:hover {
+    color: #007bff; /* Плавное изменение цвета при наведении */
+}
+
+/* Поля ввода */
 .form-group {
     margin-bottom: 20px;
     position: relative;
@@ -44,13 +69,16 @@ h1 {
     border-radius: 5px;
     font-size: 16px;
     background-color: #f9f9f9;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .form-group input:focus {
     border-color: #007bff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
     outline: none;
 }
 
+/* Кнопка отправки */
 .btn-submit {
     background-color: #007bff;
     color: white;
@@ -60,13 +88,15 @@ h1 {
     border-radius: 5px;
     width: 100%;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .btn-submit:hover {
     background-color: #0056b3;
+    transform: scale(1.05); /* Легкое увеличение кнопки при наведении */
 }
 
+/* Ссылка в футере */
 .footer {
     text-align: center;
     margin-top: 20px;
@@ -76,18 +106,23 @@ h1 {
 .footer a {
     color: #007bff;
     text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
 }
 
 .footer a:hover {
     text-decoration: underline;
+    color: #0056b3;
 }
 
+/* Ошибки */
 .error {
     color: #d9534f;
     font-size: 14px;
     margin-top: 5px;
 }
 
+/* Ошибка в email */
 #error-email {
     position: absolute;
     top: calc(100% + 5px);
@@ -97,4 +132,21 @@ h1 {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+    .container {
+        padding: 30px;
+        width: 90%;
+    }
+
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    .btn-submit {
+        font-size: 14px;
+        padding: 10px 15px;
+    }
 }

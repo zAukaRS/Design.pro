@@ -66,19 +66,25 @@ class EmailAuthenticationForm(forms.Form):
 class ApplicationForm(forms.ModelForm):
     class Meta:
         model = Application
-        fields = ['title', 'description', 'category', 'status', 'image']
+        fields = ['title', 'description', 'category', 'image']
         labels = {
             'title': 'Название заявки',
             'description': 'Описание',
             'category': 'Категория',
-            'status': 'Статус',
         }
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 5}),
             'category': forms.Select(attrs={'class': 'form-control'}),
-            'status': forms.Select(attrs={'class': 'form-control'}),
         }
+
+    def save(self, commit=True):
+        application = super().save(commit=False)
+        if not application.status:
+            application.status = 'new'
+        if commit:
+            application.save()
+        return application
 
 
 class CategoryForm(forms.ModelForm):
@@ -93,3 +99,5 @@ class CategoryForm(forms.ModelForm):
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
         }
+
+
