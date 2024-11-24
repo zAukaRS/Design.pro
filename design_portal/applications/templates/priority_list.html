@@ -1,0 +1,11 @@
+{% block content %}
+  <h2>Приоритетные заявки</h2>
+  <ul>
+    {% for application in applications %}
+      <li>
+        {{ application.title }} ({{ application.category.name }}) - 
+        Статус: {{ application.get_status_display }}
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

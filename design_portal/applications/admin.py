@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Application, Category
+from .models import Application, Category, Manager
 
 
 @admin.register(Application)
@@ -16,3 +16,8 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name', 'created_at', 'updated_at')
     search_fields = ('name', 'description')
     ordering = ('name',)
+
+@admin.register(Manager)
+class ManagerAdmin(admin.ModelAdmin):
+    list_display = ('user', 'priority_application')
+    search_fields = ('user__username',)

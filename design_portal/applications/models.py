@@ -70,6 +70,18 @@ class Application(models.Model):
         null=True,
         verbose_name="Изображение"
     )
+    is_priority_assigned = models.BooleanField(default=False, verbose_name="Заявка назначена")
+    is_priority = models.BooleanField(default=False, verbose_name="Приоритетная заявка")
+
+
+    assigned_to = models.ForeignKey(
+        User,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='assigned_applications',
+        verbose_name="Назначено администратору"
+    )
 
     class Meta:
         verbose_name = "Заявка"
@@ -97,6 +109,11 @@ class Application(models.Model):
                 timestamp=now(),
             )
 
+    def is_action_blocked(self, user):
+        if self.is_priority and not self.assigned_admin:
+            return True
+        return False
+
 
 class ApplicationHistory(models.Model):
     application = models.ForeignKey(Application, related_name='history', on_delete=models.CASCADE)
@@ -118,3 +135,19 @@ class ApplicationHistory(models.Model):
 
     def __str__(self):
         return f"{self.application.title} - {self.action} ({self.timestamp})"
+
+
+class Manager(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='manager_profile')
+    is_priority_assigned = models.BooleanField(default=False, verbose_name="Заявка назначена")
+    priority_application = models.OneToOneField(
+        Application,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='priority_for_manager',
+        verbose_name="Приоритетная заявка"
+    )
+
+    def __str__(self):
+        return f"Менеджер: {self.user.username}"

@@ -25,3 +25,26 @@ document.addEventListener("DOMContentLoaded", function() {
         bubbleContainer.appendChild(bubble);
     }
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    const notificationsModal = document.getElementById('notificationsModal');
+    const notificationButton = document.querySelector('.btn-info');
+    const notificationForm = document.getElementById('notificationForm');
+
+    if (notificationsModal && notificationButton) {
+        notificationButton.addEventListener('click', () => {
+            notificationButton.classList.remove('blink');
+        });
+
+        notificationsModal.addEventListener('shown.bs.modal', function () {
+            notificationButton.classList.remove('blink');
+        });
+
+        notificationsModal.addEventListener('hidden.bs.modal', function () {
+            if (notificationForm) {
+                notificationForm.submit();
+            }
+        });
+    }
+});
+

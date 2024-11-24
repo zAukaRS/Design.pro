@@ -1,0 +1,59 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Назначить заявку администратору</title>
+    <link rel="stylesheet" href="{% static 'css/assign_priority.css' %}">
+</head>
+<body>
+    <header class="main-header">
+        <nav>
+            <a href="{% url 'index' %}" class="logo">Design Portal</a>
+            <div class="nav-links">
+                <button class="btn" disabled>Личный кабинет</button>
+                <button class="btn btn-secondary" disabled>Выйти</button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="content">
+        <h1>Назначение заявки "{{ application.title }}" администратору</h1>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="admin_id">Выберите администратора:</label>
+                <select name="admin_id" id="admin_id" required>
+                    {% for admin in admins %}
+                        <option value="{{ admin.id }}">{{ admin.username }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary" id="assignBtn" disabled>Назначить</button>
+        </form>
+        <button class="btn btn-secondary" disabled>Вернуться на главную</button>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Design Portal</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const adminSelect = document.getElementById('admin_id');
+            const assignBtn = document.getElementById('assignBtn');
+            const allButtons = document.querySelectorAll('button');
+            adminSelect.addEventListener('change', () => {
+                if (adminSelect.value) {
+                    assignBtn.disabled = false;
+                    allButtons.forEach(button => {
+                        if (button !== assignBtn) button.disabled = true;
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Design.pro</title>
     <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
     <header class="header">
@@ -31,6 +32,15 @@
             <p>Вы можете создавать, просматривать и управлять своими запросами на дизайн интерьера.</p>
             <a href="{% url 'application-create' %}" class="btn btn-primary">Создать заявку</a>
             <a href="{% url 'application-list' %}" class="btn btn-secondary">Посмотреть заявки</a>
+            <button type="button"
+                    class="btn btn-info {% if should_notify %}blink{% endif %}"
+                    data-bs-toggle="modal"
+                    data-bs-target="#notificationsModal">
+                Уведомления
+            </button>
+            {% if user.manager_profile and not user.is_superuser %}
+                <a href="{% url 'create_priority_application' %}" class="btn btn-warning mt-3">Создать приоритетную заявку</a>
+            {% endif %}
         {% else %}
             <h2>Ознакомьтесь с нашими услугами</h2>
             <p>Войдите в систему или зарегистрируйтесь, чтобы начать создавать свои пожелания по дизайну интерьера.</p>
@@ -40,6 +50,40 @@
     <footer class="footer">
         <p>&copy; 2024 Design.pro. Все права защищены.</p>
     </footer>
-<script src="{% static 'js/index.js' %}" defer></script>
+
+    <div class="modal fade" id="notificationsModal" tabindex="-1" aria-labelledby="notificationsModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="notificationsModalLabel">Последние заявки</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                </div>
+                <div class="modal-body">
+                    <h6>Последняя добавленная заявка:</h6>
+                    {% if last_added_application %}
+                        <p><strong>{{ last_added_application.title }}</strong> - {{ last_added_application.created_at }}</p>
+                    {% else %}
+                        <p>Заявок нет.</p>
+                    {% endif %}
+
+                    <h6>Последняя завершённая заявка:</h6>
+                    {% if last_completed_application %}
+                        <p><strong>{{ last_completed_application.title }}</strong> - {{ last_completed_application.updated_at }}</p>
+                    {% else %}
+                        <p>Заявок со статусом 'Завершена' нет.</p>
+                    {% endif %}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <form id="notificationForm" method="post" style="display: none;">
+        {% csrf_token %}
+        <input type="hidden" name="clear_notification" value="1">
+    </form>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'js/index.js' %}" defer></script>
 </body>
 </html>

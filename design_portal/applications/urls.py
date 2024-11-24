@@ -1,7 +1,12 @@
+from django.contrib.auth.decorators import login_required
 from django.urls import path
 from django.contrib.auth import views as auth_views
 
 from . import views
+from .decorators import manager_required
+from .views import application_list_api, application_detail_api, application_create_api, application_update_api, \
+    application_delete_api, category_list_api, category_create_api, register_api, login_api, check_email_api, \
+    create_priority_application
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -27,4 +32,25 @@ urlpatterns = [
 
     path('check-email/', views.check_email, name='check_email'),
     path('history/<int:pk>/', views.ApplicationHistoryDetailView.as_view(), name='application_history_detail'),
+
+    path('priority/create/', views.create_priority_application, name='create_priority_application'),
+    path('priority/<int:application_id>/assign/', views.assign_priority_application, name='assign_priority'),
+
+
+
+
+
+
+    path('api/applications/', application_list_api, name='application-list-api'),
+    path('api/applications/<int:pk>/', application_detail_api, name='application-detail-api'),
+    path('api/applications/create/', application_create_api, name='application-create-api'),
+    path('api/applications/<int:pk>/update/', application_update_api, name='application-update-api'),
+    path('api/applications/<int:pk>/delete/', application_delete_api, name='application-delete-api'),
+
+    path('api/categories/', category_list_api, name='category-list-api'),
+    path('api/categories/create/', category_create_api, name='category-create-api'),
+
+    path('api/register/', register_api, name='register-api'),
+    path('api/login/', login_api, name='login-api'),
+    path('api/check-email/', check_email_api, name='check-email-api'),
 ]
