@@ -8,7 +8,6 @@ from .managers import CustomUserManager
 
 
 class CustomUser(User):
-    full_name = models.CharField(max_length=100)
     is_admin = models.BooleanField(default=False)
     nickname = models.CharField(max_length=50, blank=True, null=True)
     objects = CustomUserManager()
@@ -44,18 +43,14 @@ class Application(models.Model):
 
     title = models.CharField(max_length=200, verbose_name="Название заявки")
     description = models.TextField(verbose_name="Описание заявки")
-    category = models.ForeignKey(
-        Category,
-        on_delete=models.CASCADE,
-        related_name="applications",
-        verbose_name="Категория заявки"
-    )
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
     status = models.CharField(
         max_length=15,
         choices=STATUS_CHOICES,
         default='new',
         verbose_name="Статус заявки"
     )
+    comment = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="Дата обновления")
     user = models.ForeignKey(
@@ -64,15 +59,9 @@ class Application(models.Model):
         related_name="applications",
         verbose_name="Пользователь"
     )
-    image = models.ImageField(
-        upload_to='applications/images/',
-        blank=True,
-        null=True,
-        verbose_name="Изображение"
-    )
-    is_priority_assigned = models.BooleanField(default=False, verbose_name="Заявка назначена")
-    is_priority = models.BooleanField(default=False, verbose_name="Приоритетная заявка")
-
+    image = models.ImageField(upload_to='applications/images/', null=True, blank=True)
+    is_priority_assigned = models.BooleanField(default=True, verbose_name="Заявка назначена")
+    is_priority = models.BooleanField(default=True, verbose_name="Приоритетная заявка")
 
     assigned_to = models.ForeignKey(
         User,

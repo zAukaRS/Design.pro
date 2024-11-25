@@ -6,7 +6,7 @@ from . import views
 from .decorators import manager_required
 from .views import application_list_api, application_detail_api, application_create_api, application_update_api, \
     application_delete_api, category_list_api, category_create_api, register_api, login_api, check_email_api, \
-    create_priority_application
+    create_priority_application, update_application, delete_application, create_application_api, create_user
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -43,14 +43,14 @@ urlpatterns = [
 
     path('api/applications/', application_list_api, name='application-list-api'),
     path('api/applications/<int:pk>/', application_detail_api, name='application-detail-api'),
-    path('api/applications/create/', application_create_api, name='application-create-api'),
-    path('api/applications/<int:pk>/update/', application_update_api, name='application-update-api'),
-    path('api/applications/<int:pk>/delete/', application_delete_api, name='application-delete-api'),
+    path('api/applications/create/', create_application_api, name='application-create-api'),
+    path('api/applications/<int:pk>/update/', application_detail_api, name='application-update-api'),
+    path('api/applications/<int:pk>/delete/', delete_application, name='application-delete-api'),
 
     path('api/categories/', category_list_api, name='category-list-api'),
     path('api/categories/create/', category_create_api, name='category-create-api'),
 
-    path('api/register/', register_api, name='register-api'),
+    path('api/register/', create_user, name='user-register'),
     path('api/login/', login_api, name='login-api'),
     path('api/check-email/', check_email_api, name='check-email-api'),
 ]

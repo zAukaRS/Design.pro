@@ -7,12 +7,18 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.decorators import login_required, user_passes_test
+from rest_framework import status, viewsets, generics
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from .decorators import manager_required
-from .models import Application, Category, ApplicationHistory, Manager
+from .models import Application, Category, ApplicationHistory, Manager, CustomUser
 from .forms import ApplicationForm, CategoryForm, EmailAuthenticationForm, UserRegistrationForm
 from django.http import JsonResponse, HttpResponseForbidden
 from django.contrib.auth.models import User
+
+from .serializers import ApplicationUpdateSerializer, ApplicationSerializer, CustomUserSerializer, UserSerializer
 
 LAST_SEEN_LAST_ADDED = None
 LAST_SEEN_LAST_COMPLETED = None
@@ -311,7 +317,7 @@ def update_status(request, application_id, new_status):
             details=f"Статус изменен на {new_status}",
             timestamp=now(),
         )
-        next_url = request.POST.get('next','application-list')
+        next_url = request.POST.get('next', 'application-list')
         return redirect(next_url)
     return redirect('user-application-list')
 
@@ -504,3 +510,85 @@ def check_email_api(request):
     email = request.GET.get('email')
     exists = User.objects.filter(email=email).exists()
     return JsonResponse({'exists': exists})
+
+
+class ApplicationStatusUpdateView(APIView):
+    def put(self, request, pk):
+        application = Application.objects.get(pk=pk)
+        serializer = ApplicationUpdateSerializer(application, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'message': 'Статус обновлен', 'data': serializer.data})
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['PUT', 'PATCH'])
+def application_detail_api(request, pk):
+    try:
+        application = Application.objects.get(id=pk)
+    except Application.DoesNotExist:
+        return Response({"detail": "Заявка не найдена"}, status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'PATCH':
+        serializer = ApplicationSerializer(application, data=request.data, partial=True)
+    else:
+        serializer = ApplicationSerializer(application, data=request.data)
+
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class CustomUserViewSet(viewsets.ModelViewSet):
+    queryset = CustomUser.objects.all()
+    serializer_class = CustomUserSerializer
+
+
+@api_view(['POST'])
+def create_application_api(request):
+    if request.method == 'POST':
+        print("Request data:", request.data)
+        serializer = ApplicationSerializer(data=request.data)
+
+        if serializer.is_valid():
+            print("Valid data:", serializer.validated_data)
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            print("Errors:", serializer.errors)  # Выводим ошибки валидации
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['PATCH'])
+def update_application(request, pk):
+    try:
+        application = Application.objects.get(pk=pk)
+    except Application.DoesNotExist:
+        return Response({'detail': 'Заявка не найдена'}, status=status.HTTP_404_NOT_FOUND)
+    serializer = ApplicationSerializer(application, data=request.data, partial=True)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    else:
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['DELETE'])
+def delete_application(request, pk):
+    try:
+        application = Application.objects.get(pk=pk)
+    except Application.DoesNotExist:
+        return Response({'detail': 'Заявка не найдена'}, status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'DELETE':
+        application.delete()
+        return Response({'detail': 'Заявка удалена успешно'}, status=status.HTTP_200_OK)
+
+
+@api_view(['POST'])
+def create_user(request):
+    if request.method == 'POST':
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
